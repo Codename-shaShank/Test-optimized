@@ -2,6 +2,22 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+if Gem::Version.new(Minitest::VERSION) >= Gem::Version.new("6")
+  module Minitest6LineFilteringBackport
+    def run(klass, method_name, reporter)
+      Minitest::Runnable.run(klass, method_name, reporter)
+    end
+
+    def run_suite(reporter, options = {})
+      options = options.merge(include: Rails::TestUnit::Runner.compose_filter(self, options[:include]))
+
+      super
+    end
+  end
+
+  ActiveSupport::TestCase.singleton_class.prepend(Minitest6LineFilteringBackport)
+end
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)

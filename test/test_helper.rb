@@ -4,11 +4,22 @@ require "rails/test_help"
 
 module Rails
   module LineFiltering
-    def run(reporter, options = {}, *args, **kwargs)
-      options = (options || {}).dup
-      options[:filter] = Rails::TestUnit::Runner.compose_filter(self, options[:filter])
+    if Minitest::VERSION.start_with?("6.")
+      def run(*args, **kwargs)
+        super
+      end
 
-      super(reporter, options, *args, **kwargs)
+      def run_suite(reporter, options = {})
+        options = options.merge(include: Rails::TestUnit::Runner.compose_filter(self, options[:include]))
+
+        super
+      end
+    else
+      def run(reporter, options = {})
+        options = options.merge(filter: Rails::TestUnit::Runner.compose_filter(self, options[:filter]))
+
+        super
+      end
     end
   end
 end

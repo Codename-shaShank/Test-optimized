@@ -1,0 +1,66 @@
+version: 2
+updates:
+  # Keep GitHub Actions pinned SHAs up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "09:00"
+      timezone: "UTC"
+    labels:
+      - "dependabot"
+      - "ci"
+
+  - package-ecosystem: "bundler"
+    directory: "/"           # Gemfile at repo root
+    schedule:
+      interval: "weekly"      # Testing: daily updates
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 0
+    labels:
+      - "dependabot"
+      - "dependencies"
+    groups:
+      rails-framework:
+        patterns:
+          - "rails"
+          - "actioncable"
+          - "actionmailer"
+          - "actionpack"
+          - "actionview"
+          - "activejob"
+          - "activemodel"
+          - "activerecord"
+          - "activestorage"
+          - "activesupport"
+          - "railties"
+          - "sprockets-rails"
+      rails-frontend:
+        patterns:
+          - "importmap-rails"
+          - "turbo-rails"
+          - "stimulus-rails"
+          - "tailwindcss-rails"
+          - "jbuilder"
+      auth:
+        patterns:
+          - "devise"
+          - "warden"
+      testing:
+        patterns:
+          - "capybara"
+          - "selenium-webdriver"
+          - "debug"
+      charting:
+        patterns:
+          - "chartkick"
+          - "groupdate"
+      infrastructure:
+        patterns:
+          - "puma"
+          - "redis"
+          - "sqlite3"
+          - "bootsnap"
+          - "tzinfo-data"
+          - "web-console"

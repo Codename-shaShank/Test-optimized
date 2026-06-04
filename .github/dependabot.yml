@@ -17,7 +17,7 @@ updates:
       interval: "weekly"      # Testing: daily updates
       time: "09:00"
       timezone: "UTC"
-    open-pull-requests-limit: 0
+    open-pull-requests-limit: 5
     labels:
       - "dependabot"
       - "dependencies"
